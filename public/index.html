@@ -1,0 +1,15 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bantha Trax</title><link rel="stylesheet" href="/style.css"></head>
+<body><main>
+<header><div class="logo">BANTHA <span>TRAX</span></div><div class="tag">Collect • Track • Buy • Resell</div></header>
+<section id="auth" class="card">
+<h2>Sign in / Create account</h2><input id="email" type="email" placeholder="Email"><input id="password" type="password" placeholder="Password (8+ characters)">
+<div><button onclick="login()">Sign in</button><button class="secondary" onclick="register()">Create account</button></div><p id="msg"></p></section>
+<section id="app" hidden>
+<div class="bar"><h2>My Inventory</h2><button class="secondary" onclick="logout()">Sign out</button></div>
+<div class="card"><h3>Add Figure</h3><input id="name" placeholder="Figure name"><textarea id="description" placeholder="Description / variant / condition"></textarea>
+<div class="grid"><input id="buy" type="number" step=".01" placeholder="Recommended buy $"><input id="retail" type="number" step=".01" placeholder="Recommended retail $"></div>
+<button onclick="addFigure()">Add figure</button></div>
+<div id="figures"></div></section>
+</main><script src="/app.js"></script></body></html>
