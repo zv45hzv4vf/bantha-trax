@@ -2,19 +2,27 @@ require("dotenv").config();
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const session = require("cookie-session");
+const path = require("path");
 const db = require("./db");
 const app = express();
 
 app.use(express.json());
-app.use(express.static("public"));
 app.use(session({
-  name: "bantha_trax",
+  name: "bantha_tracker",
   keys: [process.env.SESSION_SECRET || "dev-only-change-me"],
   httpOnly: true,
   sameSite: "lax",
   secure: process.env.NODE_ENV === "production",
   maxAge: 1000 * 60 * 60 * 24 * 30
 }));
+
+// Serve the public marketing site on banthatracker.com and the tracker UI on app.banthatracker.com.
+app.get("/", (req,res) => {
+  const host=(req.hostname||"").toLowerCase();
+  const isLanding=host === "banthatracker.com" || host === "www.banthatracker.com";
+  res.sendFile(path.join(__dirname,"public",isLanding ? "landing.html" : "index.html"));
+});
+app.use(express.static("public",{index:false}));
 
 const auth = (req,res,next) => {
   if (!req.session.userId) return res.status(401).json({error:"Sign in required"});
@@ -86,4 +94,4 @@ app.post("/api/figures/:id/purchases",auth,async(req,res)=>{
   res.json(r.rows[0]);
 });
 
-app.listen(process.env.PORT||3000,()=>console.log(`Bantha Trax running on port ${process.env.PORT||3000}`));
+app.listen(process.env.PORT||3000,()=>console.log(`Bantha Tracker running on port ${process.env.PORT||3000}`));
