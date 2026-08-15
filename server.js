@@ -22,6 +22,7 @@ app.get("/", (req,res) => {
   const isLanding=host === "banthatracker.com" || host === "www.banthatracker.com";
   res.sendFile(path.join(__dirname,"public",isLanding ? "landing.html" : "index.html"));
 });
+app.get("/features", (req,res) => res.sendFile(path.join(__dirname,"public","features.html")));
 app.use(express.static("public",{index:false}));
 
 const auth = (req,res,next) => {
